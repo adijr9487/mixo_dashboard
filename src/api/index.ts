@@ -11,12 +11,13 @@ export const useCampaigns = () => {
 
 export const useCampaign = (id: String) => {
     return useQuery({
+        enabled: id !== "",
         queryKey: ["campaign", id],
         queryFn: async (): Promise<Campaign> => (await api.get(`/campaigns/${id}`)).data,
       });
 };
 
-export const useInsights = () => {
+export const useAggregateInsights = () => {
     return useQuery({
         queryKey: ["insights"],
         queryFn: async (): Promise<AggregateInsight> => (await api.get("/campaigns/insights")).data,
@@ -25,6 +26,7 @@ export const useInsights = () => {
 
 export const useInsight = (id: String) => {
     return useQuery({
+        enabled: id !== "",
         queryKey: ["insight", id],
         queryFn: async (): Promise<Insight> => (await api.get(`/campaigns/${id}/insights`)).data,
       });
