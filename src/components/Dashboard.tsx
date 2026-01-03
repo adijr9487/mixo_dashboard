@@ -19,13 +19,16 @@ export const Dashboard = () => {
   return (
     <Row gutter={[12, 12]}>
       <Col className="gutter-row" span={12}>
-        <AggregateInsights data={aggregate} isFetching={aggregateLoading} />
+        <AggregateInsights
+          data={aggregate?.insights}
+          isFetching={aggregateLoading}
+        />
       </Col>
 
       <Col className="gutter-row" span={12}>
         <Plot
-          aggregateInsightData={aggregate}
-          specificInsightData={insights}
+          aggregateInsightData={aggregate?.insights}
+          specificInsightData={insights?.insights}
           isLoading={aggregateLoading}
         />
       </Col>
@@ -35,7 +38,7 @@ export const Dashboard = () => {
       </Col>
 
       <Col className="gutter-row" span={6}>
-        <Insights data={insights} isLoading={insightLoading} />
+        <Insights data={insights?.insights} isLoading={insightLoading} />
       </Col>
     </Row>
   );

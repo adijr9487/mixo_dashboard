@@ -2,16 +2,11 @@ import { useMemo, useState } from "react";
 import { EyeOutlined } from "@ant-design/icons";
 import { Button, Table, TableColumnsType } from "antd";
 
-import { Campaign, CampaignStatus } from "../api/types";
+import { Campaign } from "../api/types";
 import { useCampaigns } from "../api";
 
 import { getColumnSearchProps } from "../utils/tableSearch";
-
-const STATUS_FILTERS: { text: string; value: CampaignStatus }[] = [
-  { text: "Active", value: "active" },
-  { text: "Paused", value: "paused" },
-  { text: "Completed", value: "completed" },
-];
+import { STATUS_FILTERS } from "../api/constant";
 
 export const CampaignTable = ({
   setSelectedInsight,
