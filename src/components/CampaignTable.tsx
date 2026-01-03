@@ -1,9 +1,11 @@
-import React, { useMemo, useState } from "react";
-import { Campaign, CampaignStatus } from "../api/types";
-import { Button, Table, TableColumnsType } from "antd";
-import { useCampaigns } from "../api";
-import { getColumnSearchProps } from "../utils/tableSearch";
+import { useMemo, useState } from "react";
 import { EyeOutlined } from "@ant-design/icons";
+import { Button, Table, TableColumnsType } from "antd";
+
+import { Campaign, CampaignStatus } from "../api/types";
+import { useCampaigns } from "../api";
+
+import { getColumnSearchProps } from "../utils/tableSearch";
 
 const STATUS_FILTERS: { text: string; value: CampaignStatus }[] = [
   { text: "Active", value: "active" },
@@ -11,17 +13,17 @@ const STATUS_FILTERS: { text: string; value: CampaignStatus }[] = [
   { text: "Completed", value: "completed" },
 ];
 
-const CampaignTable = ({
+export const CampaignTable = ({
   setSelectedInsight,
 }: {
   setSelectedInsight: (id: string) => void;
 }) => {
-  const { data, isFetching } = useCampaigns();
-
   const [pagination, setPagination] = useState({
     page: 1,
     perPage: 5,
   });
+
+  const { data, isFetching } = useCampaigns();
 
   const columns: TableColumnsType<Campaign> = useMemo(
     () => [
@@ -89,5 +91,3 @@ const CampaignTable = ({
     />
   );
 };
-
-export default CampaignTable;

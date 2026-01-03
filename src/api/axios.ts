@@ -1,6 +1,7 @@
 import axios from "axios";
+import { API_BASE_URL } from "./constant";
 
 export const api = axios.create({
-  baseURL: "https://mixo-fe-backend-task.vercel.app/",
+  baseURL: API_BASE_URL,
   timeout: 10000,
 });

@@ -1,47 +1,71 @@
-import { Card, Col, Empty, Row, Statistic } from "antd";
-import { useInsight } from "../api";
-import { formatDateTime } from "../utils/helper";
+import { useState } from "react";
+import { Card, Col, Empty, Row, Statistic, Switch } from "antd";
 
-export const Insight = ({ id }: { id: string }) => {
-  const { data, isFetching } = useInsight(id || "");
+import { Insight } from "../api/types";
+
+import { formatDateTime } from "../utils/helper";
+import { useInsightStream } from "../utils/hooks";
+
+export const Insights = ({
+  data,
+  isLoading,
+}: {
+  data: Insight | undefined;
+  isLoading: boolean | undefined;
+}) => {
+  const [viaSocketId, setViaSocketId] = useState("");
+
+  const insightStream = useInsightStream(viaSocketId);
+
+  const insights = viaSocketId ? insightStream : data?.insights;
 
   return (
     <Card
       size="small"
-      title={`Specific Campaign Insights (${id})`}
-      loading={isFetching}
+      title={`Specific Campaign Insights (${insights?.campaign_id})`}
+      extra={
+        <Switch
+          checkedChildren="SSE"
+          unCheckedChildren="REST"
+          defaultChecked={!!viaSocketId}
+          onClick={(e) => {
+            setViaSocketId(e ? data?.insights.campaign_id || "" : "");
+          }}
+        />
+      }
+      loading={isLoading}
     >
-      {id ? (
+      {data ? (
         <Row gutter={5}>
           <Col span={8}>
-            <Statistic title="Impressions" value={data?.insights.impressions} />
+            <Statistic title="Impressions" value={insights?.impressions} />
           </Col>
           <Col span={8}>
-            <Statistic title="Clicks" value={data?.insights.clicks} />
+            <Statistic title="Clicks" value={insights?.clicks} />
           </Col>
           <Col span={8}>
             <Statistic
               title="Conversion Rate"
-              value={data?.insights.conversion_rate}
+              value={insights?.conversion_rate}
             />
           </Col>
           <Col span={8}>
-            <Statistic title="Conversions" value={data?.insights.conversions} />
+            <Statistic title="Conversions" value={insights?.conversions} />
           </Col>
           <Col span={8}>
-            <Statistic title="CPC" value={data?.insights.cpc} />
+            <Statistic title="CPC" value={insights?.cpc} />
           </Col>
           <Col span={8}>
-            <Statistic title="CTR" value={data?.insights.ctr} />
+            <Statistic title="CTR" value={insights?.ctr} />
           </Col>
           <Col span={8}>
             <Statistic
               title="Timestamps"
-              value={formatDateTime(data?.insights.timestamp || "")}
+              value={formatDateTime(insights?.timestamp || "")}
             />
           </Col>
           <Col span={8}>
-            <Statistic title="Spend" value={data?.insights.spend} />
+            <Statistic title="Spend" value={insights?.spend} />
           </Col>
         </Row>
       ) : (

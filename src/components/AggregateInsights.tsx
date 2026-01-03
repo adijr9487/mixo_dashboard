@@ -1,10 +1,15 @@
 import { Card, Col, Row, Statistic } from "antd";
-import { useAggregateInsights } from "../api";
+
 import { formatDateTime } from "../utils/helper";
+import { AggregateInsight } from "../api/types";
 
-export const AggregateInsights = () => {
-  const { data, isFetching } = useAggregateInsights();
-
+export const AggregateInsights = ({
+  data,
+  isFetching,
+}: {
+  data: AggregateInsight | undefined;
+  isFetching: boolean;
+}) => {
   return (
     <Card
       size="small"
